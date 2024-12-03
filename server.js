@@ -1,12 +1,17 @@
 const jsonServer = require('json-server');
 const server = jsonServer.create();
-const router = jsonServer.router('db.json'); // Path to your JSON file
+const router = jsonServer.router('ecommerce-db.json');
 const middlewares = jsonServer.defaults();
-const port = process.env.PORT || 5000; // Use PORT environment variable or default to 5000
+
+// Disable caching
+server.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store'); // Disable cache to avoid 304 responses
+  next();
+});
 
 server.use(middlewares);
 server.use(router);
 
-server.listen(port, () => {
-  console.log(`JSON Server is running on port ${port}`);
+server.listen(5000, () => {
+  console.log('JSON Server is running on port 5000');
 });
